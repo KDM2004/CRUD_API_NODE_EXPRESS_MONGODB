@@ -1,0 +1,58 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profiles</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .profile-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">User Profiles</h1>
+        <div id="userProfiles"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        async function fetchUsers() {
+            try {
+                const response = await fetch('/users');
+                const users = await response.json();
+                displayUsers(users);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        }
+
+        function displayUsers(users) {
+            const userProfiles = document.getElementById('userProfiles');
+            userProfiles.innerHTML = '';
+
+            users.forEach(user => {
+                const profileCard = `
+                    <div class="profile-card">
+                        <h2>${user.firstName} ${user.lastName}</h2>
+                        <p><strong>Age:</strong> ${user.age}</p>
+                        <p><strong>Sex:</strong> ${user.Sex}</p>
+                    </div>
+                `;
+                userProfiles.innerHTML += profileCard;
+            });
+        }
+
+        // Fetch users on page load
+        fetchUsers();
+    </script>
+</body>
+</html>
